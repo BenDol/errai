@@ -206,6 +206,11 @@ public class MockServletContext implements ServletContext {
   }
 
   @Override
+  public Dynamic addJspFile(String s, String s1) {
+    throw new UnsupportedOperationException("Not implemented.");
+  }
+
+  @Override
   public <T extends Servlet> T createServlet(Class<T> clazz) throws ServletException {
     throw new UnsupportedOperationException("Not implemented.");
   }
@@ -310,4 +315,33 @@ public class MockServletContext implements ServletContext {
     throw new UnsupportedOperationException("Not implemented.");
   }
 
+  @Override
+  public int getSessionTimeout() {
+    throw new UnsupportedOperationException("Not implemented.");
+  }
+
+  @Override
+  public void setSessionTimeout(int i) {
+    throw new UnsupportedOperationException("Not implemented.");
+  }
+
+  @Override
+  public String getRequestCharacterEncoding() {
+    throw new UnsupportedOperationException("Not implemented.");
+  }
+
+  @Override
+  public void setRequestCharacterEncoding(String s) {
+    throw new UnsupportedOperationException("Not implemented.");
+  }
+
+  @Override
+  public String getResponseCharacterEncoding() {
+    throw new UnsupportedOperationException("Not implemented.");
+  }
+
+  @Override
+  public void setResponseCharacterEncoding(String s) {
+    throw new UnsupportedOperationException("Not implemented.");
+  }
 }

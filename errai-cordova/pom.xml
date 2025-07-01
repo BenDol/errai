@@ -5,17 +5,13 @@
   <parent>
     <artifactId>errai-parent</artifactId>
     <groupId>org.jboss.errai</groupId>
-    <version>4.2.1-SNAPSHOT</version>
+    <version>4.17.0-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>errai-cordova</artifactId>
   <name>Errai::Cordova</name>
-
-  <properties>
-    <junit.version>4.8.1</junit.version>
-  </properties>
 
   <dependencies>
     <dependency>
@@ -46,13 +42,13 @@
     <!-- GWT -->
     <!-- Must come after errai-common is inherited for patched JUnitShell -->
     <dependency>
-      <groupId>com.google.gwt</groupId>
+      <groupId>org.gwtproject</groupId>
       <artifactId>gwt-user</artifactId>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
-      <groupId>com.google.gwt</groupId>
+      <groupId>org.gwtproject</groupId>
       <artifactId>gwt-dev</artifactId>
       <scope>provided</scope>
     </dependency>
@@ -90,11 +86,11 @@
           <plugin>
             <artifactId>maven-surefire-plugin</artifactId>
             <!-- Override exclusions in parent -->
-            <configuration combine.self="override">
-              <excludes>
+            <configuration>
+              <excludes combine.self="override">
                 <exclude>**/events/**</exclude>
               </excludes>
-              <includes>
+              <includes combine.self="override">
                 <include>**/*Test.java</include>
                 <include>**/*Tests.java</include>
               </includes>

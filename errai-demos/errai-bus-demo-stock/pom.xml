@@ -4,7 +4,7 @@
   <name>Errai::Bus::Demos::Stock</name>
   <groupId>org.jboss.errai.demos</groupId>
   <artifactId>errai-bus-demo-stock</artifactId>
-  <version>4.2.1-SNAPSHOT</version>
+  <version>4.17.0-SNAPSHOT</version>
   <packaging>war</packaging>
 
   <url>http://jboss.org/errai/errai</url>
@@ -59,7 +59,7 @@
     <maven.clean.plugin.version>2.4.1</maven.clean.plugin.version>
     <maven.compiler.plugin.version>2.3.2</maven.compiler.plugin.version>
     <maven.deploy.plugin.version>2.7</maven.deploy.plugin.version>
-    <maven.gwt.plugin.version>2.8.2</maven.gwt.plugin.version>
+    <maven.gwt.plugin.version>2.10.0</maven.gwt.plugin.version>
   </properties>
 
   <repositories>
@@ -108,7 +108,7 @@
   <dependencies>
     <!-- Must be here because the gwt-maven-plugin snapshot has the wrong gwt-dev version. -->
     <dependency>
-      <groupId>com.google.gwt</groupId>
+      <groupId>org.gwtproject</groupId>
       <artifactId>gwt-dev</artifactId>
       <scope>provided</scope>
     </dependency>
@@ -142,9 +142,14 @@
       <scope>provided</scope>
     </dependency>
 
+    <dependency>
+      <groupId>org.jboss.errai</groupId>
+      <artifactId>errai-javax-enterprise</artifactId>
+    </dependency>
+
     <!-- Scoped -->
     <dependency>
-      <groupId>com.google.gwt</groupId>
+      <groupId>org.gwtproject</groupId>
       <artifactId>gwt-user</artifactId>
       <scope>provided</scope>
     </dependency>
@@ -182,9 +187,7 @@
           <extraJvmArgs>-Xmx1g</extraJvmArgs>
           <jvm></jvm>
           <style>DETAILED</style>
-          <soyc>false</soyc>
           <hostedWebapp>src/main/webapp/</hostedWebapp>
-          <treeLogger>true</treeLogger>
           <strict>true</strict>
         </configuration>
         <executions>
@@ -267,7 +270,7 @@
                   <pluginExecutionFilter>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>gwt-maven-plugin</artifactId>
-                    <versionRange>[2.3.0,)</versionRange>
+                    <versionRange>[2.10.0,)</versionRange>
                     <goals>
                       <goal>resources</goal>
                     </goals>

@@ -7,7 +7,7 @@
   <parent>
     <artifactId>errai-jpa-parent</artifactId>
     <groupId>org.jboss.errai</groupId>
-    <version>4.2.1-SNAPSHOT</version>
+    <version>4.17.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>errai-jpa-client</artifactId>
@@ -23,8 +23,14 @@
     </dependency>
 
     <dependency>
-      <groupId>org.hibernate.javax.persistence</groupId>
-      <artifactId>hibernate-jpa-2.1-api</artifactId>
+      <groupId>jakarta.persistence</groupId>
+      <artifactId>jakarta.persistence-api</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>
@@ -43,14 +49,19 @@
       <artifactId>errai-data-binding</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>org.jboss.errai</groupId>
+      <artifactId>errai-javax-enterprise</artifactId>
+    </dependency>
+
     <!-- Must come after errai-common is inherited for patched JUnitShell -->
     <dependency>
-      <groupId>com.google.gwt</groupId>
+      <groupId>org.gwtproject</groupId>
       <artifactId>gwt-user</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>com.google.gwt</groupId>
+      <groupId>org.gwtproject</groupId>
       <artifactId>gwt-dev</artifactId>
       <scope>provided</scope>
     </dependency>
@@ -95,7 +106,10 @@
             <artifactId>maven-failsafe-plugin</artifactId>
             <configuration>
               <skipTests>false</skipTests>
-              <forkMode>always</forkMode>
+<!--               <forkMode>always</forkMode> -->
+<!-- http://maven.apache.org/surefire/maven-surefire-plugin/examples/fork-options-and-parallel-execution.html#Migrating_the_Deprecated_forkMode_Parameter_to_forkCount_and_reuseForks -->
+              <forkCount>1</forkCount>
+              <reuseForks>false</reuseForks>
               <argLine>-Xms1g -Xmx1500m ${argLine}</argLine>
 
               <additionalClasspathElements>
@@ -105,6 +119,7 @@
               </additionalClasspathElements>
               <useSystemClassLoader>false</useSystemClassLoader>
               <useManifestOnlyJar>true</useManifestOnlyJar>
+              <enableAssertions>false</enableAssertions>
 
               <systemProperties>
                 <property>
@@ -144,6 +159,22 @@
           </plugin>
         </plugins>
       </build>
+      <dependencies>
+        <dependency>
+          <groupId>org.jboss.errai</groupId>
+          <artifactId>errai-codegen</artifactId>
+          <exclusions>
+            <exclusion>
+              <groupId>org.eclipse.jdt</groupId>
+              <artifactId>ecj</artifactId>
+            </exclusion>
+          </exclusions>
+        </dependency>
+        <dependency>
+          <groupId>jakarta.xml.bind</groupId>
+          <artifactId>jakarta.xml.bind-api</artifactId>
+        </dependency>
+      </dependencies>
     </profile>
   </profiles>
 

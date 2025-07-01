@@ -3,14 +3,14 @@
   <parent>
     <groupId>org.jboss.errai</groupId>
     <artifactId>errai-jsinterop-demo</artifactId>
-    <version>4.2.1-SNAPSHOT</version>
+    <version>4.17.0-SNAPSHOT</version>
   </parent>
   <artifactId>errai-jsinterop-demo-api</artifactId>
   <name>Errai::JSInterop::Demo::API</name>
   
   <dependencies>
     <dependency>
-      <groupId>com.google.gwt</groupId>
+      <groupId>org.gwtproject</groupId>
       <artifactId>gwt-user</artifactId>
     </dependency>
   </dependencies>

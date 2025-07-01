@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.jboss.errai</groupId>
     <artifactId>errai-security</artifactId>
-    <version>4.2.1-SNAPSHOT</version>
+    <version>4.17.0-SNAPSHOT</version>
   </parent>
   <artifactId>errai-security-server</artifactId>
   <name>Errai::Security::Server</name>
@@ -12,8 +12,18 @@
   <dependencies>
     <!-- Must come before gwt-user to override servlet api -->
     <dependency>
-      <groupId>org.jboss.spec.javax.servlet</groupId>
-      <artifactId>jboss-servlet-api_3.1_spec</artifactId>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>jakarta.interceptor</groupId>
+      <artifactId>jakarta.interceptor-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>jakarta.ws.rs</groupId>
+      <artifactId>jakarta.ws.rs-api</artifactId>
       <scope>provided</scope>
     </dependency>
 
@@ -33,7 +43,7 @@
     </dependency>
 
     <dependency>
-      <groupId>com.google.gwt</groupId>
+      <groupId>org.gwtproject</groupId>
       <artifactId>gwt-user</artifactId>
       <scope>provided</scope>
     </dependency>
@@ -53,16 +63,6 @@
     <dependency>
       <groupId>org.jboss.resteasy</groupId>
       <artifactId>resteasy-cdi</artifactId>
-      <exclusions>
-        <exclusion>
-          <groupId>javassist</groupId>
-          <artifactId>javassist</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>commons-logging</groupId>
-          <artifactId>commons-logging</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <!-- Replacement for javassist:javassist excluded from resteasy-cdi -->
     <dependency>
@@ -94,7 +94,7 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.google.gwt</groupId>
+      <groupId>org.gwtproject</groupId>
       <artifactId>gwt-dev</artifactId>
       <scope>test</scope>
     </dependency>
@@ -108,10 +108,10 @@
           <plugin>
             <artifactId>maven-surefire-plugin</artifactId>
             <!-- Override exclusions in parent -->
-            <configuration combine.self="override">
-              <excludes>
+            <configuration>
+              <excludes combine.self="override">
               </excludes>
-              <includes>
+              <includes combine.self="override">
                 <include>**/*Test.java</include>
                 <include>**/*Tests.java</include>
               </includes>

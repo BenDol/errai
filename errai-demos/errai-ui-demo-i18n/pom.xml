@@ -4,7 +4,7 @@
   <name>Errai::UI::Demos::I18NDemo</name>
   <groupId>org.jboss.errai.demos</groupId>
   <artifactId>errai-ui-demos-i18ndemo</artifactId>
-  <version>4.2.1-SNAPSHOT</version>
+  <version>4.17.0-SNAPSHOT</version>
   <packaging>war</packaging>
 
   <url>http://jboss.org/errai/errai</url>
@@ -64,7 +64,7 @@
     <version>${maven.compiler.plugin.version}</version>  
     <jetty.version>6.1.25</jetty.version>
     <jboss-as-maven-plugin.version>7.4.Final</jboss-as-maven-plugin.version>
-    <maven.gwt.plugin.version>2.8.2</maven.gwt.plugin.version>
+    <maven.gwt.plugin.version>2.10.0</maven.gwt.plugin.version>
   </properties>
 
   <repositories>
@@ -118,12 +118,12 @@
     </dependency>
     <!-- Must be here because the gwt-maven-plugin snapshot has the wrong gwt-dev version. -->
     <dependency>
-      <groupId>com.google.gwt</groupId>
+      <groupId>org.gwtproject</groupId>
       <artifactId>gwt-dev</artifactId>
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>com.google.gwt</groupId>
+      <groupId>org.gwtproject</groupId>
       <artifactId>gwt-user</artifactId>
       <scope>provided</scope>
     </dependency>
@@ -134,8 +134,8 @@
 
     <!-- XXX should we get this for free with errai-javaee-all? -->
     <dependency>
-      <groupId>org.jboss.spec.javax.ejb</groupId>
-      <artifactId>jboss-ejb-api_3.2_spec</artifactId>
+      <groupId>jakarta.ejb</groupId>
+      <artifactId>jakarta.ejb-api</artifactId>
       <scope>provided</scope>
     </dependency>
 
@@ -147,14 +147,14 @@
     <!-- TODO figure out how to force all these things to provided scope without doing it explicitly in EVERY SINGLE ERRAI PROJECT!!!!111!!!!1 -->
     <!-- Don't deploy any of this -->
     <dependency><groupId>com.google.guava</groupId><artifactId>guava-gwt</artifactId><scope>provided</scope></dependency>
-    <dependency><groupId>hsqldb</groupId><artifactId>hsqldb</artifactId><scope>provided</scope></dependency>    
-    <dependency><groupId>javax.enterprise</groupId><artifactId>cdi-api</artifactId><scope>provided</scope></dependency>
-    <dependency><groupId>javax.inject</groupId><artifactId>javax.inject</artifactId><scope>provided</scope></dependency>
+    <dependency><groupId>org.hsqldb</groupId><artifactId>hsqldb</artifactId><scope>provided</scope></dependency>    
+    <dependency><groupId>jakarta.enterprise</groupId><artifactId>jakarta.enterprise.cdi-api</artifactId><scope>provided</scope></dependency>
+    <dependency><groupId>jakarta.inject</groupId><artifactId>jakarta.inject-api</artifactId><scope>provided</scope></dependency>
     <dependency><groupId>javax.validation</groupId><artifactId>validation-api</artifactId><classifier>sources</classifier><scope>provided</scope></dependency>
     <dependency><groupId>javax.validation</groupId><artifactId>validation-api</artifactId><scope>provided</scope></dependency>
     <dependency><groupId>junit</groupId><artifactId>junit</artifactId><scope>provided</scope></dependency>
     <dependency><groupId>org.hibernate.common</groupId><artifactId>hibernate-commons-annotations</artifactId><scope>provided</scope></dependency>
-    <dependency><groupId>org.hibernate.javax.persistence</groupId><artifactId>hibernate-jpa-2.1-api</artifactId><scope>provided</scope></dependency>
+    <dependency><groupId>jakarta.persistence</groupId><artifactId>jakarta.persistence-api</artifactId><scope>provided</scope></dependency>
     <dependency><groupId>org.hibernate</groupId><artifactId>hibernate-core</artifactId><scope>provided</scope></dependency>
     <dependency><groupId>org.hibernate</groupId><artifactId>hibernate-entitymanager</artifactId><scope>provided</scope></dependency>
     <dependency><groupId>org.hibernate</groupId><artifactId>hibernate-validator</artifactId><scope>provided</scope></dependency>
@@ -169,9 +169,9 @@
     <dependency><groupId>org.jboss.errai</groupId><artifactId>errai-tools</artifactId><scope>provided</scope></dependency>
     <dependency><groupId>org.jboss.errai</groupId><artifactId>errai-ui</artifactId><scope>provided</scope></dependency>
     <dependency><groupId>org.jboss.logging</groupId><artifactId>jboss-logging</artifactId><scope>provided</scope></dependency>
-    <dependency><groupId>org.jboss.spec.javax.interceptor</groupId><artifactId>jboss-interceptors-api_1.2_spec</artifactId><scope>provided</scope></dependency>
-    <dependency><groupId>org.jboss.spec.javax.transaction</groupId><artifactId>jboss-transaction-api_1.2_spec</artifactId><scope>provided</scope></dependency>
-    <dependency><groupId>org.jboss.weld.servlet</groupId><artifactId>weld-servlet-core</artifactId><scope>provided</scope></dependency>
+    <dependency><groupId>jakarta.interceptor</groupId><artifactId>jakarta.interceptor-api</artifactId><scope>provided</scope></dependency>
+    <dependency><groupId>jakarta.transaction</groupId><artifactId>jakarta.transaction-api</artifactId><scope>provided</scope></dependency>
+    <dependency><groupId>jakarta.xml.bind</groupId><artifactId>jakarta.xml.bind-api</artifactId></dependency>
     <dependency><groupId>xml-apis</groupId><artifactId>xml-apis</artifactId><scope>provided</scope></dependency>
     <dependency><groupId>io.netty</groupId><artifactId>netty-codec-http</artifactId><scope>provided</scope></dependency>
     <dependency><groupId>io.netty</groupId><artifactId>netty-handler</artifactId><scope>provided</scope></dependency>
@@ -314,7 +314,7 @@
                   <pluginExecutionFilter>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>gwt-maven-plugin</artifactId>
-                    <versionRange>[2.4.0,)</versionRange>
+                    <versionRange>[2.10.0,)</versionRange>
                     <goals>
                       <goal>resources</goal>
                     </goals>

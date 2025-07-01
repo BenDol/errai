@@ -22,59 +22,86 @@ Release Steps
 -------------
 
 1. Run the test suite. Ensure all tests pass. (Can skip this if last CI build is green.)
-        
-        % mvn -Pintegration-test clean install
+
+    ```bash
+    mvn -Pintegration-test clean install    
+    ```
         
 1. Update reference guide with latest content and check in generated docbook.
         
-        % cd errai-docs
-        % mvn clean package   # this needs a profile in ~/.m2/settings.xml that references the JBoss public maven repo
-        % git add src
+    ```bash
+    cd errai-docs
+    mvn clean package #this needs a profile in ~/.m2/settings.xml that references the JBoss public maven repo
+    git add src
+    ```
+       
         
 1. Ask Maven to update the version number in all the pom.xml files:
-   
-        % cd $errai_root_dir
-        % ./updateVersions.sh a.b.c.Final x.y.z.Final
-   
+
+   ```bash
+   cd {errai_root_dir}
+   ./updateVersions.sh a.b.c-SNAPSHOT a.b.c.Final
+   ```
+  
    Afterward, verify that all subprojects reference the new parent pom's version:
    
-        % find . -name pom.xml | xargs grep x.y.z | grep SNAP
+   ```bash
+   find . -name pom.xml | xargs grep a.b.c | grep SNAP
+   ```
        
    (if any are out of sync with the parent version, Maven will not have updated them)
 
 1. Build and package the release. These are the bits that will be uploaded to nexus.
    Expect this to take about 4 minutes, depending on network speed.
         
-        % mvn clean deploy -Dgwt.compiler.skip=true -DaltDeploymentRepository=jboss-snapshots-repository::default::https://repository.jboss.org/nexus/service/local/staging/deploy/maven2/
+    ```bash
+    mvn clean deploy -Dgwt.compiler.skip=true -DaltDeploymentRepository=jboss-snapshots-repository::default::https://repository.jboss.org/nexus/service/local/staging/deploy/maven2/
+    ```
 
 1. Upload the docs
 
-        % cd dist
-        % scripts/upload_docs.sh ${version}
-
-1. Tag and push the release to github
-
-        % git commit -a -m "Updated to new version x.y.z"
-        % git tag x.y.z.Final
+    ```bash
+    cd dist
+    scripts/upload_docs.sh {version}
+    ```
+        
+    * **NOTE**: In the case it does not work, repeat Step 2 only before retrying.
+    * **NOTE2**: Upload both for {version} and `latest`. Remember to pass the `--skip-mkdirs` param when uploading `latest`. i.e. `scripts/upload_docs.sh latest --skip-mkdirs`
+    * **NOTE3**: If you get a "Permission denied" message, make sure that you have your keys on the `~/.ssh` directory and that you've ran `ssh-add -k ${path-to-key}` too.
+      
+      i.e. `ssh-add -k /home/{user}/.ssh/errai/id_rsa` 
     
-  reset all versions to x.y.z+1-SNAPSHOT and commit
+
+1. Tag and push the release to GitHub
+
+    ```bash
+    git commit -a -m "Updated to new version a.b.c.Final"
+    git tag -a a.b.c.Final -m "tagged a.b.c.Final"
+    ```
+    
+ 1. Reset all versions to `a.b+1.c-SNAPSHOT` and commit
+    ```bash
+    cd {errai_root_dir}
+    ./updateVersions.sh a.b.c.Final a.b+1.c-SNAPSHOT
+    git commit -a -m "Updated to new development version a.b+1.c-SNAPSHOT"
+    ```
   
-        % git push origin /branch/
-        % git push origin --tags
-        % git push upstream /branch/
-        % git push upstream --tags
+ 1. Push the changes:
+    ```bash
+    git push upstream {branch}
+    git push upstream a.b.c.Final
+    ```
 
 1. Browse to nexus (https://repository.jboss.org/nexus/index.html)
-  * Find the corresponding staging repository (Sort by repository name)
-  * Select it and click Close
-  * Select it again and click Release
-  * Browse to https://repository.jboss.org/nexus/content/groups/public/org/jboss/errai/ and verify that 
-     the artifacts are present
+    * Find the corresponding staging repository (Sort by repository Update)
+    * Select it and click Close (takes about 1 minute)
+    * Select it again and click Release
+    * After that, it will take about 1 day for the artifacts to show up in Maven Central. Browse to (https://repository.jboss.org/nexus/content/groups/public/org/jboss/errai/) and verify that the artifacts are present.
 
 1. Release the new version on [JIRA](https://issues.jboss.org/projects/ERRAI?selectedItem=com.atlassian.jira.jira-projects-plugin%3Arelease-page&status=unreleased).
 
-1. Update the version number of errai in the getting started demo's pom.xml:
-  https://github.com/errai/errai-tutorial/blob/master/pom.xml
+1. Update the version number of `errai-tutorial`'s pom.xml:
+  https://github.com/errai/errai-tutorial/blob/main/pom.xml
 
 1. Update the website with links to the new version (https://github.com/errai/errai.github.com)
 
@@ -83,3 +110,15 @@ Release Steps
 1. (Optional) Tweet about the release!
 
 === You're done! Congrats! You deserve beer! ===
+
+
+Releasing org.jboss.errai:wildfly-dist
+----
+
+1. `cd errai-cdi/errai-wildfly-dist`
+
+2. Make sure that you have the right permissions on Nexus then run:
+```bash
+mvn clean deploy
+```
+3. After that, execute only step 9. of the normal Release Process.

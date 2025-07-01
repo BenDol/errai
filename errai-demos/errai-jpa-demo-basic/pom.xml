@@ -5,7 +5,7 @@
   <groupId>org.jboss.errai.demos</groupId>
   <name>Errai::JPA::Demos::Basic</name>
   <artifactId>errai-jpa-demo-basic</artifactId>
-  <version>4.2.1-SNAPSHOT</version>
+  <version>4.17.0-SNAPSHOT</version>
   <packaging>war</packaging>
 
   <url>http://jboss.org/errai/errai</url>
@@ -61,12 +61,12 @@
     <maven.clean.plugin.version>2.4.1</maven.clean.plugin.version>
     <maven.compiler.plugin.version>2.3.2</maven.compiler.plugin.version>
     <maven.deploy.plugin.version>2.7</maven.deploy.plugin.version> 
-    <maven.gwt.plugin.version>2.8.2</maven.gwt.plugin.version>
+    <maven.gwt.plugin.version>2.10.0</maven.gwt.plugin.version>
     <weld.version>2.3.3.Final</weld.version>
-    <jetty.version>9.2.14.v20151106</jetty.version>
+    <jetty.version>9.4.44.v20210927</jetty.version>
     <!-- Dev Mode config properties -->
     <errai.dev.context>${project.artifactId}</errai.dev.context>
-    <as.version>10.0.0.Final</as.version>
+    <as.version>23.0.2.Final</as.version>
     <!-- Add the absolute path for $JBOSS_HOME below to manage another instance -->
     <errai.jboss.home>${project.build.directory}/wildfly-${as.version}</errai.jboss.home>
   </properties>
@@ -117,6 +117,16 @@
   <dependencies>
     <dependency>
       <groupId>org.jboss.errai</groupId>
+      <artifactId>errai-codegen</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>org.eclipse.jdt</groupId>
+          <artifactId>ecj</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.errai</groupId>
       <artifactId>errai-jpa-client</artifactId>
     </dependency>
 
@@ -137,20 +147,25 @@
     </dependency>
 
     <dependency>
-      <groupId>org.jboss.spec.javax.servlet</groupId>
-      <artifactId>jboss-servlet-api_3.1_spec</artifactId>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>javax.enterprise</groupId>
-      <artifactId>cdi-api</artifactId>
+      <groupId>jakarta.enterprise</groupId>
+      <artifactId>jakarta.enterprise.cdi-api</artifactId>
       <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>jakarta.xml.bind</groupId>
+      <artifactId>jakarta.xml.bind-api</artifactId>
     </dependency>
 
     <!-- Errai Core -->
@@ -190,9 +205,21 @@
 
     <!-- GWT and GWT Extensions -->
     <dependency>
-      <groupId>com.google.gwt</groupId>
+      <groupId>org.gwtproject</groupId>
       <artifactId>gwt-user</artifactId>
       <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.gwtproject</groupId>
+      <artifactId>gwt-dev</artifactId>
+      <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.eclipse.jetty</groupId>
+          <artifactId>apache-jsp</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <!-- Runtime / Container dependencies -->
@@ -229,13 +256,6 @@
         </dependency>
 
         <dependency>
-          <groupId>xml-apis</groupId>
-          <artifactId>xml-apis</artifactId>
-          <version>2.0.2</version>
-          <scope>provided</scope>
-        </dependency>
-
-        <dependency>
           <groupId>org.javassist</groupId>
           <artifactId>javassist</artifactId>
         </dependency>
@@ -254,8 +274,8 @@
         </dependency>
 
         <dependency>
-          <groupId>javax.inject</groupId>
-          <artifactId>javax.inject</artifactId>
+          <groupId>jakarta.inject</groupId>
+          <artifactId>jakarta.inject-api</artifactId>
           <scope>provided</scope>
         </dependency>
 
@@ -292,13 +312,13 @@
 
       <dependencies>
         <dependency>
-          <groupId>org.jboss.spec.javax.servlet</groupId>
-          <artifactId>jboss-servlet-api_3.1_spec</artifactId>
+          <groupId>jakarta.servlet</groupId>
+          <artifactId>jakarta.servlet-api</artifactId>
           <scope>provided</scope>
         </dependency>
         <dependency>
-          <groupId>log4j</groupId>
-          <artifactId>log4j</artifactId>
+          <groupId>org.apache.logging.log4j</groupId>
+          <artifactId>log4j-core</artifactId>
         </dependency>
 
         <!-- Errai Core -->
@@ -346,13 +366,13 @@
 
         <!-- GWT and GWT Extensions -->
         <dependency>
-          <groupId>com.google.gwt</groupId>
+          <groupId>org.gwtproject</groupId>
           <artifactId>gwt-user</artifactId>
           <scope>compile</scope>
         </dependency>
 
         <dependency>
-          <groupId>com.google.gwt</groupId>
+          <groupId>org.gwtproject</groupId>
           <artifactId>gwt-dev</artifactId>
           <scope>compile</scope>
         </dependency>
@@ -410,8 +430,8 @@
         </dependency>
 
         <dependency>
-          <groupId>javax.enterprise</groupId>
-          <artifactId>cdi-api</artifactId>
+          <groupId>jakarta.enterprise</groupId>
+          <artifactId>jakarta.enterprise.cdi-api</artifactId>
         </dependency>
 
         <dependency>
@@ -450,7 +470,7 @@
           <strict>true</strict>
           <logLevel>INFO</logLevel>
           <runTarget>${errai.dev.context}</runTarget>
-          <extraJvmArgs>${argLine} -Xmx2g -Xms1g -XX:+AggressiveOpts -XX:+UseNUMA -XX:CompileThreshold=100 -Derrai.jboss.home=${errai.jboss.home} -Derrai.dev.context=${errai.dev.context}</extraJvmArgs>
+          <extraJvmArgs>${argLine} -Xmx2g -Xms1g -XX:+UseNUMA -XX:CompileThreshold=100 -Derrai.jboss.home=${errai.jboss.home} -Derrai.dev.context=${errai.dev.context}</extraJvmArgs>
           <server>org.jboss.errai.cdi.server.gwt.EmbeddedWildFlyLauncher</server>
           <hostedWebapp>src/main/webapp/</hostedWebapp>
         </configuration>
@@ -569,7 +589,7 @@
                   <pluginExecutionFilter>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>gwt-maven-plugin</artifactId>
-                    <versionRange>[2.3.0,)</versionRange>
+                    <versionRange>[2.10.0,)</versionRange>
                     <goals>
                       <goal>resources</goal>
                     </goals>

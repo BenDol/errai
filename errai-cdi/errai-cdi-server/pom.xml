@@ -11,7 +11,7 @@
   <parent>
     <groupId>org.jboss.errai</groupId>
     <artifactId>cdi-integration-parent</artifactId>
-    <version>4.2.1-SNAPSHOT</version>
+    <version>4.17.0-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
@@ -48,11 +48,11 @@
       <dependencies>
         <!-- Must come before gwt-user to override servlet api -->
         <dependency>
-          <groupId>org.jboss.spec.javax.servlet</groupId>
-          <artifactId>jboss-servlet-api_3.1_spec</artifactId>
+          <groupId>jakarta.servlet</groupId>
+          <artifactId>jakarta.servlet-api</artifactId>
           <scope>provided</scope>
         </dependency>
-      
+
         <!-- Errai Core -->
         <dependency>
           <groupId>org.jboss.errai</groupId>
@@ -96,8 +96,8 @@
         </dependency>
 
         <dependency>
-          <groupId>javax.enterprise</groupId>
-          <artifactId>cdi-api</artifactId>
+          <groupId>jakarta.enterprise</groupId>
+          <artifactId>jakarta.enterprise.cdi-api</artifactId>
           <scope>provided</scope>
         </dependency>
 
@@ -127,13 +127,13 @@
         <!-- GWT -->
         <!-- Must come after errai-common is inherited for patched JUnitShell -->
         <dependency>
-          <groupId>com.google.gwt</groupId>
+          <groupId>org.gwtproject</groupId>
           <artifactId>gwt-user</artifactId>
           <scope>provided</scope>
         </dependency>
 
         <dependency>
-          <groupId>com.google.gwt</groupId>
+          <groupId>org.gwtproject</groupId>
           <artifactId>gwt-dev</artifactId>
           <scope>provided</scope>
         </dependency>
@@ -152,8 +152,8 @@
         </dependency>
 
         <dependency>
-          <groupId>org.jboss.spec.javax.ejb</groupId>
-          <artifactId>jboss-ejb-api_3.2_spec</artifactId>
+          <groupId>jakarta.ejb</groupId>
+          <artifactId>jakarta.ejb-api</artifactId>
           <scope>provided</scope>
         </dependency>
 
@@ -236,10 +236,14 @@
                 <additionalClasspathElement>${basedir}/${profile.testOutputDirectory}/</additionalClasspathElement>
                 <additionalClasspathElement>${basedir}/src/test/java/</additionalClasspathElement>
               </additionalClasspathElements>
-              <forkMode>pertest</forkMode>
+<!--               <forkMode>pertest</forkMode> this is the same as below -->
+<!-- http://maven.apache.org/surefire/maven-surefire-plugin/examples/fork-options-and-parallel-execution.html#Migrating_the_Deprecated_forkMode_Parameter_to_forkCount_and_reuseForks -->
+              <forkCount>1</forkCount>
+              <reuseForks>false</reuseForks>
               <!-- DO NOT REMOVE THE errai.ioc.experimental.infer_dependent_by_reachability 
                 flag or the testsuite WILL fail. -->
               <argLine>-Xmx1500m </argLine>
+              <enableAssertions>false</enableAssertions>
               <systemPropertyVariables>
                 <errai.hosted_mode_testing>true</errai.hosted_mode_testing>
                 <errai.devel.nocache>true</errai.devel.nocache>
@@ -276,13 +280,13 @@
       <dependencies> 
         <!-- Must come before gwt-user to override servlet api -->
         <dependency>
-          <groupId>org.jboss.spec.javax.servlet</groupId>
-          <artifactId>jboss-servlet-api_3.1_spec</artifactId>
+          <groupId>jakarta.servlet</groupId>
+          <artifactId>jakarta.servlet-api</artifactId>
           <scope>provided</scope>
         </dependency>
         <dependency>
-          <groupId>log4j</groupId>
-          <artifactId>log4j</artifactId>
+          <groupId>org.apache.logging.log4j</groupId>
+          <artifactId>log4j-core</artifactId>
         </dependency>
         <dependency>
           <groupId>junit</groupId>
@@ -311,12 +315,6 @@
         <dependency>
           <groupId>org.jboss.errai</groupId>
           <artifactId>errai-ioc</artifactId>
-          <exclusions>
-            <exclusion>
-              <groupId>javax.inject</groupId>
-              <artifactId>javax.inject</artifactId>
-            </exclusion>            
-          </exclusions>        
         </dependency>
         
          <dependency>
@@ -362,7 +360,7 @@
         <!-- Weld Modules -->
         <dependency>
           <groupId>org.jboss.weld</groupId>
-          <artifactId>weld-core</artifactId>
+          <artifactId>weld-core-impl</artifactId>
           <scope>test</scope>
         </dependency>
         <dependency>
@@ -378,28 +376,37 @@
 
         <!-- GWT and GWT Extensions -->
         <dependency>
-          <groupId>com.google.gwt</groupId>
+          <groupId>org.gwtproject</groupId>
           <artifactId>gwt-user</artifactId>
           <scope>compile</scope>
         </dependency>
 
         <dependency>
-          <groupId>com.google.gwt</groupId>
+          <groupId>org.gwtproject</groupId>
           <artifactId>gwt-dev</artifactId>
           <scope>compile</scope>
         </dependency>
 
         <dependency>
+          <groupId>org.jboss.errai</groupId>
+          <artifactId>errai-codegen</artifactId>
+          <exclusions>
+            <exclusion>
+              <groupId>org.eclipse.jdt</groupId>
+              <artifactId>ecj</artifactId>
+            </exclusion>
+          </exclusions>
+        </dependency>
+
+        <dependency>
           <groupId>javax.validation</groupId>
           <artifactId>validation-api</artifactId>
-          <scope>compile</scope>
         </dependency>
 
         <dependency>
           <groupId>javax.validation</groupId>
           <artifactId>validation-api</artifactId>
           <classifier>sources</classifier>
-          <scope>compile</scope>
         </dependency>
 
         <!-- Runtime / Container dependencies -->
